@@ -5,44 +5,127 @@
 </head>
 <body>
   <% include ../partials/nav %>
+  <input type="hidden" id="in1" name="in1" value="0" />
+  <input type="hidden" id="in2" name="in2" value="0" />
+  <input type="hidden" id="in3" name="in3" value="0" />
   <div class="container">
-    <p>
+    <div class="h6_tit"><h6 class="mt-5 mb-3">카드백과사전입니다. 다양한 조건으로 원하는 카드를 찾아보세요.</h6></div>
+    <div class="req-btn buwui">
       <div class="row">
-        <div class="form-group">
-          <div class="col-lg-3 mb-4">
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                착용부위
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="clyn">
-                <a class="dropdown-item" value="">전체</a>
-                <a class="dropdown-item" value="머리어깨">머리어깨</a>
-                <a class="dropdown-item" value="Y">CL</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-lg-3 mb-4">
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                옵션
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="clyn">
-                <a class="dropdown-item" value="">전체</a>
-                <a class="dropdown-item" value="N">Non-CL</a>
-                <a class="dropdown-item" value="Y">CL</a>
-              </div>
-            </div>
-          </div>
+        <div class="col-lg-12">
+          <p>
+            <button class="btn btn-warning buoption0">전체</button>
+            <button class="btn btn-warning buoption1">무기</button>
+            <button class="btn btn-warning buoption2">칭호</button>
+            <button class="btn btn-warning buoption3">머리어깨</button>
+            <button class="btn btn-warning buoption4">상의</button>
+            <button class="btn btn-warning buoption5">하의</button>
+            <button class="btn btn-warning buoption6">벨트</button>
+            <button class="btn btn-warning buoption7">신발</button>
+            <button class="btn btn-warning buoption8">팔찌</button>
+            <button class="btn btn-warning buoption9">목걸이</button>
+            <button class="btn btn-warning buoption10">보조장비</button>
+            <button class="btn btn-warning buoption11">반지</button>
+            <button class="btn btn-warning buoption12">귀걸이</button>
+            <button class="btn btn-warning buoption13">마법석</button>
+          </p>
         </div>
       </div>
-    </p>
+    </div>
+    <div class="req-btn statoption">
+      <div class="row" style="margin-top:-16px;">
+        <div class="col-lg-12">
+          <p>
+            <button class="btn btn-success statoption0">전체</button>
+            <button class="btn btn-success statoption1">속성</button>
+            <button class="btn btn-success statoption2">스탯</button>
+            <button class="btn btn-success statoption3">속도</button>
+            <button class="btn btn-success statoption4">데미지</button>
+            <button class="btn btn-success statoption5">상태이상</button>
+            <button class="btn btn-success statoption6">기타</button>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="req-btn">
+      <div class="row" style="margin-top:-16px;">
+        <div class="col-lg-12">
+          <p class="card_dtl_option option1">
+            <button class="btn btn-default dtloption1">명속성강화</button>
+            <button class="btn btn-default dtloption2">수속성강화</button>
+            <button class="btn btn-default dtloption3">암속성강화</button>
+            <button class="btn btn-default dtloption4">화속성강화</button>
+            <button class="btn btn-default dtloption5">모든속성강화</button><br/>
+            <button class="btn btn-default dtloption6">속성부여</button>
+            <!--<button class="btn btn-default dtloption7">수속성부여</button>
+            <button class="btn btn-default dtloption8">암속성부여</button>
+            <button class="btn btn-default dtloption9">화속성부여</button>--><br/>
+            <button class="btn btn-default dtloption10">명속성저항</button>
+            <button class="btn btn-default dtloption11">수속성저항</button>
+            <button class="btn btn-default dtloption12">암속성저항</button>
+            <button class="btn btn-default dtloption13">화속성저항</button>
+            <button class="btn btn-default dtloption14">모든속성저항</button>
+          </p>
+          <p class="card_dtl_option option2">
+            <button class="btn btn-default dtloption15">힘</button>
+            <button class="btn btn-default dtloption16">체력</button>
+            <button class="btn btn-default dtloption17">지능</button>
+            <button class="btn btn-default dtloption18">정신력</button>
+            <button class="btn btn-default dtloption19">HP MAX</button>
+            <button class="btn btn-default dtloption20">MP MAX</button>
+            <button class="btn btn-default dtloption21">적중률</button>
+            <button class="btn btn-default dtloption22">회피율</button>
+          </p>
+          <p class="card_dtl_option option3">
+            <button class="btn btn-default dtloption23">캐스팅속도</button>
+            <button class="btn btn-default dtloption24">공격속도</button>
+            <button class="btn btn-default dtloption25">이동속도</button>
+            <button class="btn btn-default dtloption26">점프력</button>
+          </p>
+          <p class="card_dtl_option option4">
+            <button class="btn btn-default dtloption27">물리크리티컬</button>
+            <button class="btn btn-default dtloption28">마법크리티컬</button>
+            <button class="btn btn-default dtloption29">물리공격력</button>
+            <button class="btn btn-default dtloption30">마법공격력</button>
+            <button class="btn btn-default dtloption31">독립공격력</button>
+          </p>
+          <p class="card_dtl_option option6">
+            <button class="btn btn-default dtloption33">경직도</button>
+            <button class="btn btn-default dtloption34">히트리커버리</button>
+            <button class="btn btn-default dtloption35">스킬</button>
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
   <% include ../partials/script %>
   <script>
     jQuery(document).ready(function() {
+      $("button").click(function() {
+        var button_nm = $(this).attr("class");
+        if(button_nm.indexOf("statoption") > -1) {
+          var statoption_num = button_nm.substring(button_nm.indexOf("statoption")+10);
+          if(statoption_num==0) $("#in3").val(statoption_num);
+          if(statoption_num==5) $("#in3").val("32");
+          $("#in2").val(statoption_num);
+          $("#in3").val("0");
+          $(".card_dtl_option").css("display","none");
+          $(".option"+statoption_num).css("display","block");
 
+          card.getMyCardInfo();
+        }else if(button_nm.indexOf("dtloption") > -1) {
+          var dtloption_num = button_nm.substring(button_nm.indexOf("dtloption")+9);
+          $("#in2").val("0");
+          $("#in3").val(dtloption_num);
+
+          card.getMyCardInfo();
+        }else if(button_nm.indexOf("buoption") > -1) {
+          var buoption_num = button_nm.substring(button_nm.indexOf("buoption")+8);
+          $("#in1").val(buoption_num);
+
+          card.getMyCardInfo();
+        }
+      });
     });
   </script>
 </body>

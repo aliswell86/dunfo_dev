@@ -25,6 +25,7 @@ app.use(bodyParser.json()); // 2
 app.use(bodyParser.urlencoded({extended:true})); // 3
 
 app.use("/", require("./routes/card"));
+app.use("/card", require("./routes/card"));
 
 app.listen(8004, function() { //던포
   console.log("server on:"+__dirname);
