@@ -15,14 +15,13 @@
     <div class="req-btn grade">
       <div class="row">
         <div class="col-lg-12">
-          <button class="btn">전체</button>
           <p>
-            <button class="btn btn-outline btn-default gradeoption0">전체</button>
-            <button class="btn btn-common gradeoption1">커먼</button>
-            <button class="btn btn-uncommon gradeoption2">언커먼</button>
-            <button class="btn btn-rair gradeoption3">레어</button>
-            <button class="btn btn-unique gradeoption4">유니크</button>
-            <button class="btn btn-legend gradeoption5">레전더리</button>
+            <button class="btn btn-grade gradeoption0">전체</button>
+            <button class="btn btn-grade gradeoption1">커먼</button>
+            <button class="btn btn-grade gradeoption2">언커먼</button>
+            <button class="btn btn-grade gradeoption3">레어</button>
+            <button class="btn btn-grade gradeoption4">유니크</button>
+            <button class="btn btn-grade gradeoption5">레전더리</button>
           </p>
         </div>
       </div>
@@ -31,20 +30,20 @@
       <div class="row" style="margin-top:-16px;">
         <div class="col-lg-12">
           <p>
-            <button class="btn btn-warning buoption0">전체</button>
-            <button class="btn btn-warning buoption1">무기</button>
-            <button class="btn btn-warning buoption2">칭호</button>
-            <button class="btn btn-warning buoption3">머리어깨</button>
-            <button class="btn btn-warning buoption4">상의</button>
-            <button class="btn btn-warning buoption5">하의</button>
-            <button class="btn btn-warning buoption6">벨트</button>
-            <button class="btn btn-warning buoption7">신발</button>
-            <button class="btn btn-warning buoption8">팔찌</button>
-            <button class="btn btn-warning buoption9">목걸이</button>
-            <button class="btn btn-warning buoption10">보조장비</button>
-            <button class="btn btn-warning buoption11">반지</button>
-            <button class="btn btn-warning buoption12">귀걸이</button>
-            <button class="btn btn-warning buoption13">마법석</button>
+            <button class="btn btn-buwui buoption0">전체</button>
+            <button class="btn btn-buwui buoption1">무기</button>
+            <button class="btn btn-buwui buoption2">칭호</button>
+            <button class="btn btn-buwui buoption3">머리어깨</button>
+            <button class="btn btn-buwui buoption4">상의</button>
+            <button class="btn btn-buwui buoption5">하의</button>
+            <button class="btn btn-buwui buoption6">벨트</button>
+            <button class="btn btn-buwui buoption7">신발</button>
+            <button class="btn btn-buwui buoption8">팔찌</button>
+            <button class="btn btn-buwui buoption9">목걸이</button>
+            <button class="btn btn-buwui buoption10">보조장비</button>
+            <button class="btn btn-buwui buoption11">반지</button>
+            <button class="btn btn-buwui buoption12">귀걸이</button>
+            <button class="btn btn-buwui buoption13">마법석</button>
           </p>
         </div>
       </div>
@@ -53,13 +52,13 @@
       <div class="row" style="margin-top:-16px;">
         <div class="col-lg-12">
           <p>
-            <button class="btn btn-success statoption0">전체</button>
-            <button class="btn btn-success statoption1">속성</button>
-            <button class="btn btn-success statoption2">스탯</button>
-            <button class="btn btn-success statoption3">속도</button>
-            <button class="btn btn-success statoption4">데미지</button>
-            <button class="btn btn-success statoption5">상태이상</button>
-            <button class="btn btn-success statoption6">기타</button>
+            <button class="btn btn-stat statoption0">전체</button>
+            <button class="btn btn-stat statoption1">속성</button>
+            <button class="btn btn-stat statoption2">스탯</button>
+            <button class="btn btn-stat statoption3">속도</button>
+            <button class="btn btn-stat statoption4">데미지</button>
+            <button class="btn btn-stat statoption5">상태이상</button>
+            <button class="btn btn-stat statoption6">기타</button>
           </p>
         </div>
       </div>
@@ -120,26 +119,45 @@
   <script>
     jQuery(document).ready(function() {
 
-      $("button").mouseenter(function() {
-        var rgb = $(this).css("color");
-        var setRgb = rgb.substring(0,rgb.lastIndexOf(")"))+", 0.4)";
-        $(this).css("background-color",setRgb);
+      $(".btn-stat").mouseenter(function() {
+        $(this).css("background-color","#1e7e34");
+        $(this).css("color","#fff");
+        $(this).css("border-color","#1c7430");
       })
 
-      $("button").mouseleave(function() {
+      $(".btn-stat").mouseleave(function() {
         $(this).css("background-color","#FFF");
+        $(this).css("color","#28a745");
+        $(this).css("border-color","#ccc");
+      });
+
+      $(".btn-buwui").mouseenter(function() {
+        $(this).css("background-color","#e0a800");
+        $(this).css("color","#fff");
+        $(this).css("border-color","#d39e00");
+      })
+
+      $(".btn-buwui").mouseleave(function() {
+        $(this).css("background-color","#FFF");
+        $(this).css("color","#ffc107");
+        $(this).css("border-color","#ccc");
+      });
+
+      $(".btn-grade").mouseenter(function() {
+        $(this).css("background-color","#c82333");
+        $(this).css("color","#fff");
+        $(this).css("border-color","#bd2130");
+      })
+
+      $(".btn-grade").mouseleave(function() {
+        $(this).css("background-color","#FFF");
+        $(this).css("color","#d9534f");
+        $(this).css("border-color","#ccc");
       });
 
       $("button").click(function() {
         var button_nm = $(this).attr("class");
         if(button_nm.indexOf("statoption") > -1) {
-          //css 시작
-          // console.log($(".statoption div div p button").css("background-color"));
-          // $(".statoption div div p button").css("background-color","#FFF");
-          var rgb = $(this).css("color");
-          var setRgb = rgb.substring(0,rgb.lastIndexOf(")"))+", 0.5) !important";
-          console.log(setRgb);
-          $(this).css("background-color",setRgb);
 
           var statoption_num = button_nm.substring(button_nm.indexOf("statoption")+10);
           if(statoption_num==0) $("#in3").val(statoption_num);
