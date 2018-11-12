@@ -8,10 +8,27 @@
   <input type="hidden" id="in1" name="in1" value="0" />
   <input type="hidden" id="in2" name="in2" value="0" />
   <input type="hidden" id="in3" name="in3" value="0" />
+  <input type="hidden" id="in4" name="in4" value="0" />
   <div class="container">
+
     <div class="h6_tit"><h6 class="mt-5 mb-3">카드백과사전입니다. 다양한 조건으로 원하는 카드를 찾아보세요.</h6></div>
-    <div class="req-btn buwui">
+    <div class="req-btn grade">
       <div class="row">
+        <div class="col-lg-12">
+          <button class="btn">전체</button>
+          <p>
+            <button class="btn btn-outline btn-default gradeoption0">전체</button>
+            <button class="btn btn-common gradeoption1">커먼</button>
+            <button class="btn btn-uncommon gradeoption2">언커먼</button>
+            <button class="btn btn-rair gradeoption3">레어</button>
+            <button class="btn btn-unique gradeoption4">유니크</button>
+            <button class="btn btn-legend gradeoption5">레전더리</button>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="req-btn buwui">
+      <div class="row" style="margin-top:-16px;">
         <div class="col-lg-12">
           <p>
             <button class="btn btn-warning buoption0">전체</button>
@@ -97,13 +114,33 @@
         </div>
       </div>
     </div>
+    <div id="html">
   </div>
   <% include ../partials/script %>
   <script>
     jQuery(document).ready(function() {
+
+      $("button").mouseenter(function() {
+        var rgb = $(this).css("color");
+        var setRgb = rgb.substring(0,rgb.lastIndexOf(")"))+", 0.4)";
+        $(this).css("background-color",setRgb);
+      })
+
+      $("button").mouseleave(function() {
+        $(this).css("background-color","#FFF");
+      });
+
       $("button").click(function() {
         var button_nm = $(this).attr("class");
         if(button_nm.indexOf("statoption") > -1) {
+          //css 시작
+          // console.log($(".statoption div div p button").css("background-color"));
+          // $(".statoption div div p button").css("background-color","#FFF");
+          var rgb = $(this).css("color");
+          var setRgb = rgb.substring(0,rgb.lastIndexOf(")"))+", 0.5) !important";
+          console.log(setRgb);
+          $(this).css("background-color",setRgb);
+
           var statoption_num = button_nm.substring(button_nm.indexOf("statoption")+10);
           if(statoption_num==0) $("#in3").val(statoption_num);
           if(statoption_num==5) $("#in3").val("32");
@@ -112,18 +149,23 @@
           $(".card_dtl_option").css("display","none");
           $(".option"+statoption_num).css("display","block");
 
-          card.getMyCardInfo();
+          // card.getMyCardInfo();
         }else if(button_nm.indexOf("dtloption") > -1) {
           var dtloption_num = button_nm.substring(button_nm.indexOf("dtloption")+9);
           $("#in2").val("0");
           $("#in3").val(dtloption_num);
 
-          card.getMyCardInfo();
+          // card.getMyCardInfo();
         }else if(button_nm.indexOf("buoption") > -1) {
           var buoption_num = button_nm.substring(button_nm.indexOf("buoption")+8);
           $("#in1").val(buoption_num);
 
-          card.getMyCardInfo();
+          // card.getMyCardInfo();
+        }else if(button_nm.indexOf("gradeoption") > -1) {
+          var gradeoption_num = button_nm.substring(button_nm.indexOf("gradeoption")+11);
+          $("#in4").val(gradeoption_num);
+
+          // card.getMyCardInfo();
         }
       });
     });
