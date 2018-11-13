@@ -22,8 +22,6 @@ router.post("/get", function(req, res) {
   DunCardItem.find(inObj).limit(1000).exec(
     function(err, dbList){
       if(err) return res.json(err);
-      // console.log(prettyjson.render(JSON.stringify(dbList).toString()));
-      console.log("dbList : " + dbList.length);
       res.json(dbList);
     }
   );
