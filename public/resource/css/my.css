@@ -65,3 +65,16 @@ h6 {color:#868a96 !important;font-size:12px !important;}
 .row {margin-left:0px !important;margin-right:0px !important;}
 .card_dtl_option {display:none;}
 /* .card_dtl_option.option2,.card_dtl_option.option3,.card_dtl_option.option4,.card_dtl_option.option6 {margin-top:-53px;} */
+
+.tit_buwui {color:#73AD8D;}
+.tit_common {}
+.tit_uncommon {color:#68D5ED;}
+.tit_rair {color:#B36BFF;}
+.tit_unique {color:#FF00FF;}
+.tit_epic {color:#FFB400;}
+.tit_cronicle {color:#FF6666;}
+.tit_legend {color:#FF7800;}
+.tit_option {}
+.card_img {padding-right:4px;}
+#card_tab {font-size:11px;}
+#card_tab tr td,th {vertical-align:middle !important;}
