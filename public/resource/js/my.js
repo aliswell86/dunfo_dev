@@ -2,11 +2,16 @@ card = function() {
 
   var callback_getMyCardInfo = function(data,textStatus,xhr) {
     if(!myajax.ajaxStatus(xhr,textStatus)) return;
-    if(data===null || data.length===0 || data===null) return;
 
     var html = "";
     var tit_class = "";
     $("#card_tab tbody").empty();
+
+    if(data===null || data.length===0 || data===null) {
+      html += "<tr><td colspan=\"4\">아무것도 없습니다.</td></tr>";
+      $("#card_tab tbody").html(html);
+      return;
+    }
 
     $.each(data, function(i, obj) {
       if(obj.cardInfo==="" || obj.cardInfo===0 || obj.cardInfo===null || obj.cardInfo===undefined) return false;
@@ -40,13 +45,17 @@ card = function() {
       var option_value_nm = "";
       if(obj.cardInfo.enchant !== "" && obj.cardInfo.enchant !== null && obj.cardInfo.enchant !== undefined) {
         $.each(obj.cardInfo.enchant, function(k, enchant) {
-          var brsub = "";
-          if((obj.cardInfo.enchant.length - 1) != k) brsub += "<br/>";
           if(enchant.status !== "" && enchant.status !== null && enchant.status !== undefined) {
+            if(obj.cardInfo.enchant.length > 1) {
+              option_value_nm += "("+Number(k+1)+"/"+obj.cardInfo.enchant.length+") ";
+            }else{
+
+            }
             $.each(enchant.status, function(jj, status) {
               if((enchant.status.length - 1) == jj) option_value_nm += status.name + "+" + status.value;
-              else option_value_nm += status.name + "&nbsp;+" + status.value + "<br/>" + brsub;
+              else option_value_nm += status.name + "&nbsp;+" + status.value + ", ";
             });
+            option_value_nm += "<BR/>";
           }
         });
       }

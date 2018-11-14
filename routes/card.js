@@ -19,7 +19,7 @@ router.post("/get", function(req, res) {
   var in4 = req.body.in4;
   var inObj = setinObj(in1,in2,in3,in4);
 
-  DunCardItem.find(inObj).limit(1000).exec(
+  DunCardItem.find(inObj).limit(1000).sort({"cardInfo.enchant":{"$elemMatch":{"status":{"$elemMatch":{"name"}}}}}).exec(
     function(err, dbList){
       if(err) return res.json(err);
       res.json(dbList);
