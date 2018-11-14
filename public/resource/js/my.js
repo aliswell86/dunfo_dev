@@ -5,7 +5,8 @@ card = function() {
 
     var html = "";
     var tit_class = "";
-    $("#card_tab tbody").empty();
+
+    if($("#in5").val() != "0") $("#card_tab tbody").empty();
 
     if(data===null || data.length===0 || data===null) {
       html += "<tr><td colspan=\"4\">아무것도 없습니다.</td></tr>";
@@ -27,7 +28,7 @@ card = function() {
       else if(itemRarity == "유니크") tit_class = "tit_unique";
       else if(itemRarity == "레전더리") tit_class = "tit_legend";
       html += "<tr>";
-      html += "<td class="+tit_class+">";
+      html += "<td class="+tit_class+">"+i+"|"+obj.itemSeq;
       html += "<img class=\"card_img\" src=\"https://img-api.neople.co.kr/df/items/"+obj.itemId+"\" />";
       html += obj.itemName;
       html += "</td>";
@@ -46,15 +47,15 @@ card = function() {
       if(obj.cardInfo.enchant !== "" && obj.cardInfo.enchant !== null && obj.cardInfo.enchant !== undefined) {
         $.each(obj.cardInfo.enchant, function(k, enchant) {
           if(enchant.status !== "" && enchant.status !== null && enchant.status !== undefined) {
-            if(obj.cardInfo.enchant.length > 1) {
-              option_value_nm += "("+Number(k+1)+"/"+obj.cardInfo.enchant.length+") ";
-            }else{
-
-            }
             $.each(enchant.status, function(jj, status) {
               if((enchant.status.length - 1) == jj) option_value_nm += status.name + "+" + status.value;
               else option_value_nm += status.name + "&nbsp;+" + status.value + ", ";
             });
+            if(obj.cardInfo.enchant.length > 1) {
+              option_value_nm += " ("+Number(k+1)+"/"+obj.cardInfo.enchant.length+")";
+            }else{
+
+            }
             option_value_nm += "<BR/>";
           }
         });
@@ -63,9 +64,18 @@ card = function() {
       html += "</td>";
       html += "<td class=\"tit_option\">200,000 골드</td>";
       html += "</tr>";
+      
+      if(i == 50) {
+        $("#in5").val(obj.itemSeq);
+        html += "<tfoot class=\"more_view\"><tr><td colspan=\"4\" onclick=\"javascript:card.getMyCardInfo('"+obj.itemSeq+"');\">더보기</td></tr></tfoot>";
+      }else{
+        $("#in5").val("0");
+      }
     });
 
     $("#card_tab tbody").html(html);
+
+
 
 
 
@@ -104,13 +114,14 @@ card = function() {
   };
 
   return {
-    getMyCardInfo : function() {
+    getMyCardInfo : function(in5) {
       var url = "/card/get";
       var data = {};
       data.in1 = $("#in1").val();
       data.in2 = $("#in2").val();
       data.in3 = $("#in3").val();
       data.in4 = $("#in4").val();
+      data.in5 = in5;
       myajax.ajaxSubmit(url,data,callback_getMyCardInfo);
     }
   };

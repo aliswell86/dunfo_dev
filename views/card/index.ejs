@@ -9,6 +9,7 @@
   <input type="hidden" id="in2" name="in2" value="0" />
   <input type="hidden" id="in3" name="in3" value="0" />
   <input type="hidden" id="in4" name="in4" value="0" />
+  <input type="text" id="in5" name="in5" value="0" />
   <div class="container">
 
     <div class="h6_tit"><h6 class="mt-5 mb-3">카드백과사전입니다. 다양한 조건으로 원하는 카드를 찾아보세요.</h6></div>
@@ -134,7 +135,11 @@
               </tr>
             </thead>
             <tbody>
-
+              <!-- <tfoot class="more_view" style="display:none;">
+                <tr>
+                  <td colspan="4" onclick="javascript:card.getMyCardInfo("0");">더보기</td>
+                </tr>
+              </tfoot> -->
             </tbody>
           </table>
         </p>
@@ -168,7 +173,8 @@
           $(".card_dtl_option").css("display","none");
           $(".option"+statoption_num).css("display","block");
 
-          card.getMyCardInfo();
+          $("#in5").val("0");
+          card.getMyCardInfo("0");
         }else if(button_nm.indexOf("dtloption") > -1) {
           var dtloption_num = button_nm.substring(button_nm.indexOf("dtloption")+9);
 
@@ -180,7 +186,8 @@
           $("#in2").val("0");
           $("#in3").val(dtloption_num);
 
-          card.getMyCardInfo();
+          $("#in5").val("0");
+          card.getMyCardInfo("0");
         }else if(button_nm.indexOf("buoption") > -1) {
           var buoption_num = button_nm.substring(button_nm.indexOf("buoption")+8);
 
@@ -192,7 +199,8 @@
 
           $("#in1").val(buoption_num);
 
-          card.getMyCardInfo();
+          $("#in5").val("0");
+          card.getMyCardInfo("0");
         }else if(button_nm.indexOf("gradeoption") > -1) {
           var gradeoption_num = button_nm.substring(button_nm.indexOf("gradeoption")+11);
 
@@ -204,7 +212,8 @@
 
           $("#in4").val(gradeoption_num);
 
-          card.getMyCardInfo();
+          $("#in5").val("0");
+          card.getMyCardInfo("0");
         }
       });
     });
