@@ -5,8 +5,7 @@ card = function() {
 
     var html = "";
     var tit_class = "";
-
-    if($("#in5").val() != "0") $("#card_tab tbody").empty();
+    var page_size = 50;
 
     if(data===null || data.length===0 || data===null) {
       html += "<tr><td colspan=\"4\">아무것도 없습니다.</td></tr>";
@@ -16,19 +15,21 @@ card = function() {
 
     $.each(data, function(i, obj) {
       if(obj.cardInfo==="" || obj.cardInfo===0 || obj.cardInfo===null || obj.cardInfo===undefined) return false;
+
       var itemRarity = obj.itemRarity;
-      // var OPTION_GRADE_VALUE1 = "커먼";
-      // var OPTION_GRADE_VALUE2 = "언커먼";
-      // var OPTION_GRADE_VALUE3 = "레어";
-      // var OPTION_GRADE_VALUE4 = "유니크";
-      // var OPTION_GRADE_VALUE5 = "레전더리";
       if(itemRarity == "커먼") tit_class = "tit_common";
       else if(itemRarity == "언커먼") tit_class = "tit_uncommon";
       else if(itemRarity == "레어") tit_class = "tit_rair";
       else if(itemRarity == "유니크") tit_class = "tit_unique";
       else if(itemRarity == "레전더리") tit_class = "tit_legend";
+
+      if(i == page_size) {
+        html += "<tr class=\"more_view\"><td colspan=\"4\" onclick=\"javascript:card.getMyCardInfo("+obj.itemSeq+");\">더보기</td></tr>";
+        return false;
+      }
+
       html += "<tr>";
-      html += "<td class="+tit_class+">"+i+"|"+obj.itemSeq;
+      html += "<td class="+tit_class+">";
       html += "<img class=\"card_img\" src=\"https://img-api.neople.co.kr/df/items/"+obj.itemId+"\" />";
       html += obj.itemName;
       html += "</td>";
@@ -44,36 +45,55 @@ card = function() {
       html += "</td>";
       html += "<td class=\"tit_option\">";
       var option_value_nm = "";
+      var skill_value_nm = "";
       if(obj.cardInfo.enchant !== "" && obj.cardInfo.enchant !== null && obj.cardInfo.enchant !== undefined) {
         $.each(obj.cardInfo.enchant, function(k, enchant) {
           if(enchant.status !== "" && enchant.status !== null && enchant.status !== undefined) {
-            $.each(enchant.status, function(jj, status) {
-              if((enchant.status.length - 1) == jj) option_value_nm += status.name + "+" + status.value;
-              else option_value_nm += status.name + "&nbsp;+" + status.value + ", ";
-            });
             if(obj.cardInfo.enchant.length > 1) {
-              option_value_nm += " ("+Number(k+1)+"/"+obj.cardInfo.enchant.length+")";
-            }else{
-
+              option_value_nm += "("+Number(k+1)+"/"+obj.cardInfo.enchant.length+") ";
             }
-            option_value_nm += "<BR/>";
+
+            if(enchant.status.length > 0) {
+              $.each(enchant.status, function(jj, status) {
+                if((enchant.status.length - 1) == jj) option_value_nm += status.name + " +" + status.value;
+                else option_value_nm += status.name + " +" + status.value + ", ";
+              });
+
+              if((obj.cardInfo.enchant.length -1) != k) {
+                option_value_nm += "<BR/>";
+              }else{
+                skill_value_nm += "<BR/>";
+              }
+            }
+          }
+
+          if(enchant.reinforceSkill !== "" && enchant.reinforceSkill !== null && enchant.reinforceSkill !== undefined) {
+            if(enchant.reinforceSkill.length > 0) {
+              $.each(enchant.reinforceSkill, function(kk, job) {
+                if(job.skills !== "" && job.skills !== null && job.skills !== undefined) {
+                  $.each(job.skills, function(kkk, skill) {
+                    if((job.skills.length - 1) == kkk) skill_value_nm += "<b>" + job.jobName + "</b> " + skill.name + " +" + skill.value;
+                    else skill_value_nm += "<b>" + job.jobName + "</b> " + skill.name + " +" + skill.value + "</BR>";
+                  });
+                }
+                if((enchant.reinforceSkill.length - 1) != kk) skill_value_nm += "<BR/>";
+              });
+            }
           }
         });
       }
-      html += option_value_nm;
+      html += option_value_nm + skill_value_nm;
       html += "</td>";
       html += "<td class=\"tit_option\">200,000 골드</td>";
       html += "</tr>";
-      
-      if(i == 50) {
-        $("#in5").val(obj.itemSeq);
-        html += "<tfoot class=\"more_view\"><tr><td colspan=\"4\" onclick=\"javascript:card.getMyCardInfo('"+obj.itemSeq+"');\">더보기</td></tr></tfoot>";
-      }else{
-        $("#in5").val("0");
-      }
     });
 
-    $("#card_tab tbody").html(html);
+    if($("#more_view_yn").val() == "Y") {
+      $("#card_tab tbody").append(html);
+    }else{
+      $("#card_tab tbody").html(html);
+    }
+
 
 
 
@@ -115,6 +135,13 @@ card = function() {
 
   return {
     getMyCardInfo : function(in5) {
+      if(Number(in5) !== 0) {
+        $("#more_view_yn").val("Y");
+        $("tr.more_view").remove();
+      }else{
+        $("#more_view_yn").val("N");
+      }
+
       var url = "/card/get";
       var data = {};
       data.in1 = $("#in1").val();

@@ -5,8 +5,9 @@ var prettyjson = require('prettyjson');
 var DunCardItem = require("../models/DunCardItem.js");
 var common  = require("../common");
 var router = express.Router();
-var header_txt = "던파백과사전 - 카드";
-var header_description = "던전앤파이터의 모든정보. 카드,보주정보. 부위별, 옵션별 조회. 경매장시세 확인.";
+var header_txt = "던파카드사전";
+var header_description = "던전앤파이터 정보. 카드,보주정보. 부위별, 옵션별 조회. 경매장시세 확인.";
+var result_card_ary = [];
 
 router.get("/", function(req, res) {
   res.render("card/index",{title:header_txt,description:header_description});
@@ -23,15 +24,41 @@ router.post("/get", function(req, res) {
   DunCardItem.find(inObj).limit(51).sort("itemSeq").exec(
     function(err, dbList){
       if(err) return res.json(err);
-      res.json(dbList);
+      var x = 0;
+      for(var i=0; i<dbList.length; i++) {
+        setTimeout(getAuction,x,dbList[i],i);
+        x+=150;
+      }
+      setTimeout(getAuctionProc,x+150,res);
     }
   );
 });
 
 module.exports = router;
 
+var getAuctionProc = function(res) {
+  console.log(JSON.stringify(result_card_ary).toString());
+  res.json(result_card_ary);
+};
+
+var getAuction = function(dbList_obj) {
+  var result = "";
+  var options = {
+    url:"https://api.neople.co.kr/df/auction?itemId="+dbList_obj.itemId+"&sort=unitPrice:asc&limit=1&apikey=vZmjeyzzdCx4opNjt4gus3jVE8uTC6Dq"
+  };
+
+  request(options, function(err,res,html) {
+    result = html;
+  }).on('complete', function() {
+    var resultItem = JSON.parse(result).rows;
+    console.log("resultItem[0].currentPrice : " + resultItem[0].currentPrice);
+    dbList_obj.currentPrice = resultItem[0].currentPrice;
+    result_card_ary.push(dbList_obj);
+  });
+};
+
 var setinObj = function(in1,in2,in3,in4,in5) {
-  console.log(in1+"|"+in2+"|"+in3+"|"+in4+"|"+in5);
+  // console.log(in1+"|"+in2+"|"+in3+"|"+in4+"|"+in5);
   var result = {};
   var outList = [];
   // console.log("OPTION_SLOT_LIST[in1] : " + common.OPTION_SLOT_LIST[in1]);
@@ -53,6 +80,6 @@ var setinObj = function(in1,in2,in3,in4,in5) {
     outList.push({"itemSeq":{"$gte":Number(in5)}});
     result = {"$and":outList};
   }
-  console.log(prettyjson.render(result));
+  // console.log(prettyjson.render(result));
   return result;
 };

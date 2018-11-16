@@ -79,11 +79,11 @@ h6 {color:#868a96 !important;font-size:12px !important;}
 #card_tab {font-size:11px;}
 #card_tab tr td,th {vertical-align:middle !important;}
 
-tfoot.more_view tr td:hover {
+tr.more_view td:hover {
   border:solid 1px #204d74;
   background-color:#286090;
 }
-tfoot.more_view tr td {
+tr.more_view td {
   text-align:center;
   border:solid 1px #2e6da4;
   background-color:#337ab7;
