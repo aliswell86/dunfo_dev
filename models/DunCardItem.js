@@ -15,6 +15,7 @@ var DunCardItem = mongoose.Schema({
   itemFlavorText:{type:String},
   setItemId:{type:String},
   setItemName:{type:String},
+  searchItemName:{type:String},
   cardInfo:{
     slots:[{
       slotId:{type:String},
@@ -25,7 +26,15 @@ var DunCardItem = mongoose.Schema({
         name:{type:String},
         value:{type:String}
       }],
-      upgrade:{type:Number}
+      upgrade:{type:Number},
+      reinforceSkill:[{
+        jobId:{type:String},
+        jobName:{type:String},
+        skills:[{
+          name:{type:String},
+          value:{type:Number}
+        }]
+      }]
     }]
   }
 });

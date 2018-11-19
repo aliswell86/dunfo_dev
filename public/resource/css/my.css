@@ -90,3 +90,7 @@ tr.more_view td {
   color:#fff;
   cursor:pointer;
 }
+
+.search-card-input {
+  font-size:11px !important;
+}

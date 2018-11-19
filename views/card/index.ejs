@@ -12,7 +12,10 @@
   <input type="hidden" id="more_view_yn" name="more_view_yn" value="N" />
   <div class="container">
 
-    <div class="h6_tit"><h6 class="mt-5 mb-3">카드백과사전입니다. 다양한 조건으로 원하는 카드를 찾아보세요.</h6></div>
+    <div class="h6_tit">
+      <h6 class="mt-5 mb-3">던파카드사전입니다. 다양한 조건과 카드이름으로 원하는 카드의 옵션과 최저가를 확인해보세요.
+      </h6>
+    </div>
     <div class="req-btn grade">
       <div class="row">
         <div class="col-lg-12">
@@ -80,7 +83,7 @@
             <button class="btn btn-dtl dtloption11">수속성저항</button>
             <button class="btn btn-dtl dtloption12">암속성저항</button>
             <button class="btn btn-dtl dtloption13">화속성저항</button>
-            <button class="btn btn-dtl dtloption14">모든속성저항</button><br/>
+            <button class="btn btn-dtl dtloption14">모든속성저항</button>
             <button class="btn btn-dtl dtloption6">속성부여</button>
           </p>
           <p class="card_dtl_option option2">
@@ -121,8 +124,30 @@
         </div>
       </div>
     </div>
-    <div style="margin-top:30px;" />
-    <div class="row" style="margin-top:-16px;">
+    <!-- <div class="row">
+      <div class="col-lg-12">
+        <div class="input-group">
+          <span class="input-group-btn">
+            <button class="btn btn-secondary" type="button">해방 (공격력)</button>
+          </span>
+          <input type="text" class="form-control" placeholder="" value="0" id="rimitDmg" />
+        </div>
+      </div>
+    </div> -->
+    <div style="margin-top:60px;" />
+    <div class="row">
+      <p>
+        <div class="col-lg-3">
+          <div class="input-group ">
+            <input type="text" class="form-control search-card-input" placeholder="카드이름으로 찾아보세요." value="" id="in6" />
+            <span class="input-group-btn">
+              <button class="btn btn-default search-card-input" type="button">조회</button>
+            </span>
+          </div>
+        </div>
+      </p>
+    </div>
+    <div class="row">
       <div class="col-lg-12">
         <p>
           <table class="table" id="card_tab">
@@ -145,8 +170,28 @@
   <% include ../partials/script %>
   <script>
     jQuery(document).ready(function() {
+      // $(".option2").css("display","block");
 
-      $("button").click(function() {
+      // $("button").mouseenter(function() {
+      //   var button_nm = $(this).attr("class");
+      //   if(button_nm.indexOf("statoption") > -1) {
+      //     var statoption_num = button_nm.substring(button_nm.indexOf("statoption")+10);
+      //     $(".card_dtl_option").css("display","none");
+      //     $(".option"+statoption_num).css("display","block");
+      //   }
+      // });
+      // $("button").mouseleave(function() {
+      //   var button_nm = $(this).attr("class");
+      //   if(button_nm.indexOf("statoption") > -1) {
+      //     if(button_nm.indexOf("-on") < 0) {
+      //       $(".card_dtl_option").css("display","none");
+      //     }
+      //   }
+      // });
+
+      $("#in6").focus();
+
+      $("button").click(function(e) {
 
         var button_nm = $(this).attr("class");
         if(button_nm.indexOf("statoption") > -1) {
@@ -169,7 +214,6 @@
           $(".card_dtl_option").css("display","none");
           $(".option"+statoption_num).css("display","block");
 
-          $("#in5").val("0");
           card.getMyCardInfo("0");
         }else if(button_nm.indexOf("dtloption") > -1) {
           var dtloption_num = button_nm.substring(button_nm.indexOf("dtloption")+9);
@@ -182,7 +226,6 @@
           $("#in2").val("0");
           $("#in3").val(dtloption_num);
 
-          $("#in5").val("0");
           card.getMyCardInfo("0");
         }else if(button_nm.indexOf("buoption") > -1) {
           var buoption_num = button_nm.substring(button_nm.indexOf("buoption")+8);
@@ -195,7 +238,6 @@
 
           $("#in1").val(buoption_num);
 
-          $("#in5").val("0");
           card.getMyCardInfo("0");
         }else if(button_nm.indexOf("gradeoption") > -1) {
           var gradeoption_num = button_nm.substring(button_nm.indexOf("gradeoption")+11);
@@ -208,7 +250,14 @@
 
           $("#in4").val(gradeoption_num);
 
-          $("#in5").val("0");
+          card.getMyCardInfo("0");
+        }else if(button_nm.indexOf("search-card-input") > -1) {
+          card.getMyCardInfo("0");
+        }
+      });
+
+      $("#in6").keyup(function(e) {
+        if(e.keyCode == 13) {
           card.getMyCardInfo("0");
         }
       });

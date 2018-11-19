@@ -5,7 +5,7 @@ card = function() {
 
     var html = "";
     var tit_class = "";
-    var page_size = 50;
+    var page_size = 20;
 
     if(data===null || data.length===0 || data===null) {
       html += "<tr><td colspan=\"4\">아무것도 없습니다.</td></tr>";
@@ -50,7 +50,8 @@ card = function() {
         $.each(obj.cardInfo.enchant, function(k, enchant) {
           if(enchant.status !== "" && enchant.status !== null && enchant.status !== undefined) {
             if(obj.cardInfo.enchant.length > 1) {
-              option_value_nm += "("+Number(k+1)+"/"+obj.cardInfo.enchant.length+") ";
+              if((obj.cardInfo.enchant.length-1) == k) option_value_nm += "(최대) ";
+              else option_value_nm += "("+Number(k)+"/"+Number(obj.cardInfo.enchant.length-1)+") ";
             }
 
             if(enchant.status.length > 0) {
@@ -84,7 +85,9 @@ card = function() {
       }
       html += option_value_nm + skill_value_nm;
       html += "</td>";
-      html += "<td class=\"tit_option\">200,000 골드</td>";
+      html += "<td class=\"tit_option\">";
+      if(obj.unitPrice.length != "") html += utils.formatComma(obj.unitPrice) + "("+obj.auctionCount+") 골드";
+      html += "</td>";
       html += "</tr>";
     });
 
@@ -135,6 +138,9 @@ card = function() {
 
   return {
     getMyCardInfo : function(in5) {
+      if($("#more_view_yn").val() != "Y") {
+        $("#card_tab tbody").empty();
+      }
       if(Number(in5) !== 0) {
         $("#more_view_yn").val("Y");
         $("tr.more_view").remove();
@@ -149,6 +155,7 @@ card = function() {
       data.in3 = $("#in3").val();
       data.in4 = $("#in4").val();
       data.in5 = in5;
+      data.in6 = $("#in6").val();
       myajax.ajaxSubmit(url,data,callback_getMyCardInfo);
     }
   };
