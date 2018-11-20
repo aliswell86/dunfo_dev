@@ -1,16 +1,14 @@
 
 var express = require("express");
 var request = require("request");
-var prettyjson = require('prettyjson');
 var DunCardItem = require("../models/DunCardItem.js");
 var common  = require("../common");
 var router = express.Router();
 var header_txt = "던파카드사전 - 던전앤파이터";
-var header_description = "던전앤파이터 정보. 카드,보주정보. 부위별, 옵션별 조회. 경매장시세 확인.";
-var result_card_ary = [];
+var header_description = "던전앤파이터 카드정보. 카드,보주 시세. 부위별 옵션별 조회. 재료용카드 확인.";
 
 router.get("/", function(req, res) {
-  res.render("card/index",{title:header_txt,description:header_description});
+  res.render("card/parts",{title:header_txt,description:header_description});
 });
 
 router.post("/get", function(req, res) {
@@ -22,7 +20,7 @@ router.post("/get", function(req, res) {
   var in6 = req.body.in6;
   var inObj = common.setinObj(in1,in2,in3,in4,in5,in6);
 
-  DunCardItem.find(inObj).limit(21).sort("itemSeq").exec(
+  DunCardItem.find(inObj).exec(
     function(err, dbList){
       if(err) return res.json(err);
       var x = 0;

@@ -127,4 +127,43 @@ common.formatComma = function(str) {
   return x1 + x2;
 };
 
+common.setinObj = function(in1,in2,in3,in4,in5,in6) {
+  // console.log(in1+"|"+in2+"|"+in3+"|"+in4+"|"+in5);
+  var result = {};
+  var outList = [];
+
+  outList.push({"itemTypeDetail":"전문직업 재료"}); //카드만 조회
+  if(in1!="0"||in2!="0"||in3!="0"||in4!="0"||in5!="0"||in6!=="") {
+
+    if(in1!="0") outList.push({"cardInfo.slots":{"$elemMatch":{"slotName":common.OPTION_SLOT_LIST[in1]}}});
+    if(in2!="0") {
+      outList.push({"cardInfo.enchant":{"$elemMatch":{"status":{"$elemMatch":{"name":{"$in":common.OPTION_GRP_LIST[in2]}}}}}});
+    }
+    if(in3!="0") {
+      if(in3=="35") {
+        outList.push({"cardInfo.enchant":{"$elemMatch":{"reinforceSkill":{"$gt":{"$size":0}}}}});
+      }else{
+        outList.push({"cardInfo.enchant":{"$elemMatch":{"status":{"$elemMatch":{"name":common.OPTION_LIST[in3]}}}}});
+      }
+    }
+    if(in4!="0") {
+      outList.push({"itemRarity":common.OPTION_GRADE_LIST[in4]});
+    }
+    outList.push({"itemSeq":{"$gte":Number(in5)}});
+    if(in6!=="" && in6!=undefined) {
+      var or = [];
+      in6_1 = in6;
+      in6 = in6.replace(/ /gi, "");
+
+      or.push({"searchItemName":{"$regex":eval("/"+in6+"/")}});
+      or.push({"cardInfo.enchant":{"$elemMatch":{"status":{"$elemMatch":{"name":eval("/"+in6_1+"/")}}}}});
+      console.log(or);
+      outList.push({"$or":or});
+    }
+  }
+  result = {"$and":outList};
+  // console.log((result));
+  return result;
+};
+
 module.exports = common;

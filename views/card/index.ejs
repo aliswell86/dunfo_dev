@@ -13,7 +13,7 @@
   <div class="container">
 
     <div class="h6_tit">
-      <h6 class="mt-5 mb-3">던파카드사전입니다. 다양한 조건과 카드이름으로 원하는 카드의 옵션과 최저가를 확인해보세요.
+      <h6 class="mt-5 mb-3">던파카드사전입니다. 다양한 조건으로 원하는 카드의 옵션과 최저가를 확인합니다.
       </h6>
     </div>
     <div class="req-btn grade">
@@ -139,7 +139,7 @@
       <p>
         <div class="col-lg-3">
           <div class="input-group ">
-            <input type="text" class="form-control search-card-input" placeholder="카드이름으로 찾아보세요." value="" id="in6" />
+            <input type="text" class="form-control search-card-input" placeholder="카드이름이나 옵션으로 찾아보세요." value="" id="in6" />
             <span class="input-group-btn">
               <button class="btn btn-default search-card-input" type="button">조회</button>
             </span>
@@ -167,6 +167,7 @@
       </div>
     </div>
   </div>
+  <% include ../partials/footer %>
   <% include ../partials/script %>
   <script>
     jQuery(document).ready(function() {
@@ -266,6 +267,5 @@
       });
     });
   </script>
-  <% include ../partials/footer %>
 </body>
 </html>

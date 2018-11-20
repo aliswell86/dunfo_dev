@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <% include ../partials/head %>
+</head>
+<body>
+  <% include ../partials/nav %>
+  <input type="hidden" id="in1" name="in1" value="0" />
+  <input type="hidden" id="in2" name="in2" value="0" />
+  <input type="hidden" id="in3" name="in3" value="0" />
+  <input type="hidden" id="in4" name="in4" value="0" />
+  <input type="hidden" id="more_view_yn" name="more_view_yn" value="N" />
+  <div class="container">
+
+    <div class="h6_tit">
+      <h6 class="mt-5 mb-3">희귀도별 최저가 카드를 찾습니다. 카드업글재료로 많이 쓰입니다.
+      </h6>
+    </div>
+    <div class="req-btn grade">
+      <div class="row">
+        <div class="col-lg-12">
+          <p>
+            <button class="btn btn-grade-on gradeoption0">전체</button>
+            <button class="btn btn-grade gradeoption1">커먼</button>
+            <button class="btn btn-grade gradeoption2">언커먼</button>
+            <button class="btn btn-grade gradeoption3">레어</button>
+            <button class="btn btn-grade gradeoption4">유니크</button>
+            <button class="btn btn-grade gradeoption5">레전더리</button>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <p>
+          <table class="table" id="card_tab">
+            <thead>
+              <tr>
+                <th>카드명</th>
+                <th>부위</th>
+                <th>옵션</th>
+                <th>최저가(수량)</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+        </p>
+      </div>
+    </div>
+  </div>
+  <% include ../partials/footer %>
+  <% include ../partials/script %>
+  <script>
+    jQuery(document).ready(function() {
+      $("button").click(function(e) {
+        var button_nm = $(this).attr("class");
+
+        if(button_nm.indexOf("gradeoption") > -1) {
+          var gradeoption_num = button_nm.substring(button_nm.indexOf("gradeoption")+11);
+
+          //css(click)
+          $(this).parents("p").children("button").each(function(idex, item) {
+            $(this).attr("class","btn btn-grade gradeoption"+$(this).attr("class").substring($(this).attr("class").indexOf("gradeoption")+11));
+          });
+          $(this).attr("class","btn btn-grade-on gradeoption" + gradeoption_num); //클릭CSS
+
+          $("#in4").val(gradeoption_num);
+
+          card.getPartsCardInfo();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
