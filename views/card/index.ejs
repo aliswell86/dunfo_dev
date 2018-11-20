@@ -20,7 +20,7 @@
       <div class="row">
         <div class="col-lg-12">
           <p>
-            <button class="btn btn-grade gradeoption0">전체</button>
+            <button class="btn btn-grade-on gradeoption0">전체</button>
             <button class="btn btn-grade gradeoption1">커먼</button>
             <button class="btn btn-grade gradeoption2">언커먼</button>
             <button class="btn btn-grade gradeoption3">레어</button>
@@ -34,7 +34,7 @@
       <div class="row" style="margin-top:-16px;">
         <div class="col-lg-12">
           <p>
-            <button class="btn btn-buwui buoption0">전체</button>
+            <button class="btn btn-buwui-on buoption0">전체</button>
             <button class="btn btn-buwui buoption1">무기</button>
             <button class="btn btn-buwui buoption2">칭호</button>
             <button class="btn btn-buwui buoption3">머리어깨</button>
@@ -56,7 +56,7 @@
       <div class="row" style="margin-top:-16px;">
         <div class="col-lg-12">
           <p>
-            <button class="btn btn-stat statoption0">전체</button>
+            <button class="btn btn-stat-on statoption0">전체</button>
             <button class="btn btn-stat statoption1">속성</button>
             <button class="btn btn-stat statoption2">스탯</button>
             <button class="btn btn-stat statoption3">속도</button>
@@ -156,7 +156,7 @@
                 <th>카드명</th>
                 <th>부위</th>
                 <th>옵션</th>
-                <th>최저가</th>
+                <th>최저가(수량)</th>
               </tr>
             </thead>
             <tbody>
@@ -192,8 +192,9 @@
       $("#in6").focus();
 
       $("button").click(function(e) {
-
         var button_nm = $(this).attr("class");
+        if(button_nm.indexOf("search-card-input") < 0)$("#in6").val("");
+
         if(button_nm.indexOf("statoption") > -1) {
           var statoption_num = button_nm.substring(button_nm.indexOf("statoption")+10);
 
@@ -214,7 +215,7 @@
           $(".card_dtl_option").css("display","none");
           $(".option"+statoption_num).css("display","block");
 
-          card.getMyCardInfo("0");
+          if(button_nm.indexOf("statoption0") > -1) card.getMyCardInfo("0");
         }else if(button_nm.indexOf("dtloption") > -1) {
           var dtloption_num = button_nm.substring(button_nm.indexOf("dtloption")+9);
 
@@ -252,16 +253,19 @@
 
           card.getMyCardInfo("0");
         }else if(button_nm.indexOf("search-card-input") > -1) {
+          card.getMyCardInit();
           card.getMyCardInfo("0");
         }
       });
 
       $("#in6").keyup(function(e) {
         if(e.keyCode == 13) {
+          card.getMyCardInit();
           card.getMyCardInfo("0");
         }
       });
     });
   </script>
+  <% include ../partials/footer %>
 </body>
 </html>

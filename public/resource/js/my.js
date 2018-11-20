@@ -24,6 +24,7 @@ card = function() {
       else if(itemRarity == "레전더리") tit_class = "tit_legend";
 
       if(i == page_size) {
+        console.log(obj.itemSeq + " | " + obj.itemName);
         html += "<tr class=\"more_view\"><td colspan=\"4\" onclick=\"javascript:card.getMyCardInfo("+obj.itemSeq+");\">더보기</td></tr>";
         return false;
       }
@@ -86,7 +87,7 @@ card = function() {
       html += option_value_nm + skill_value_nm;
       html += "</td>";
       html += "<td class=\"tit_option\">";
-      if(obj.unitPrice.length != "") html += utils.formatComma(obj.unitPrice) + "("+obj.auctionCount+") 골드";
+      if(obj.unitPrice.length !== "") html += utils.formatComma(obj.unitPrice) + "("+obj.auctionCount+") 골드";
       html += "</td>";
       html += "</tr>";
     });
@@ -137,15 +138,16 @@ card = function() {
   };
 
   return {
+    //in5==0이면 처음조회
+    //in5!=0이면 21개이상 조회
     getMyCardInfo : function(in5) {
-      if($("#more_view_yn").val() != "Y") {
-        $("#card_tab tbody").empty();
-      }
+      $("tr.more_view").remove();
+
       if(Number(in5) !== 0) {
-        $("#more_view_yn").val("Y");
-        $("tr.more_view").remove();
+        $("#more_view_yn").val("Y"); //append
       }else{
-        $("#more_view_yn").val("N");
+        $("#more_view_yn").val("N"); // html
+        $("#card_tab tbody").empty();
       }
 
       var url = "/card/get";
@@ -157,6 +159,15 @@ card = function() {
       data.in5 = in5;
       data.in6 = $("#in6").val();
       myajax.ajaxSubmit(url,data,callback_getMyCardInfo);
+    },
+
+    getMyCardInit : function() {
+      $("tr.more_view").remove();
+      $("#in1").val("0");
+      $("#in2").val("0");
+      $("#in3").val("0");
+      $("#in4").val("0");
+      $("#more_view_yn").val("N");
     }
   };
 }();

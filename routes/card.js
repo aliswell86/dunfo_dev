@@ -82,7 +82,7 @@ var setinObj = function(in1,in2,in3,in4,in5,in6) {
   var outList = [];
 
   outList.push({"itemTypeDetail":"전문직업 재료"}); //카드만 조회
-  if(in1!="0"||in2!="0"||in3!="0"||in4!="0"||in5!="0"||in6!="") {
+  if(in1!="0"||in2!="0"||in3!="0"||in4!="0"||in5!="0"||in6!=="") {
 
     if(in1!="0") outList.push({"cardInfo.slots":{"$elemMatch":{"slotName":common.OPTION_SLOT_LIST[in1]}}});
     if(in2!="0") {
@@ -99,11 +99,12 @@ var setinObj = function(in1,in2,in3,in4,in5,in6) {
       outList.push({"itemRarity":common.OPTION_GRADE_LIST[in4]});
     }
     outList.push({"itemSeq":{"$gte":Number(in5)}});
-    if(in6!="" && in6!="undefined") {
-      outList.push({"searchItemName":{"$regex":/in6/}});
+    if(in6!=="" && in6!="undefined") {
+      in6 = in6.replace(/ /gi, "");
+      outList.push({"searchItemName":{"$regex":eval("/"+in6+"/")}});
     }
   }
   result = {"$and":outList};
-  console.log((result));
+  // console.log((result));
   return result;
 };
