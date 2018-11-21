@@ -1,3 +1,7 @@
+var request = require("request");
+var DunCardItem = require("./models/DunCardItem.js");
+var DunCardPartsItem = require("./models/DunCardPartsItem.js");
+
 var OPTION_GRADE_VALUE1 = "커먼";
 var OPTION_GRADE_VALUE2 = "언커먼";
 var OPTION_GRADE_VALUE3 = "레어";
@@ -83,6 +87,8 @@ var OPTION_GRP_VALUE6 = [
   OPTION_DTL_VALUE33,OPTION_DTL_VALUE34,OPTION_DTL_VALUE35,OPTION_DTL_VALUE38,OPTION_DTL_VALUE39
 ];
 
+var result_card_ary = [];
+
 var common = {};
 
 common.OPTION_GRADE_LIST = [
@@ -164,6 +170,74 @@ common.setinObj = function(in1,in2,in3,in4,in5,in6) {
   result = {"$and":outList};
   // console.log((result));
   return result;
+};
+
+common.batchCardPartsInfo = function() {
+  DunCardItem.find({}).limit(2).sort("itemSeq").exec(
+    function(err, dbList){
+      if(err) return res.json(err);
+      var x = 0;
+      result_card_ary = [];
+      for(var i=0; i<dbList.length; i++) {
+        setTimeout(getAuction,x,dbList[i],i);
+        x+=120;
+      }
+      setTimeout(getAuctionProc,x+120);
+    }
+  );
+};
+
+var getAuctionProc = function() {
+  var sortJsonArray = require('sort-json-array');
+  var result_card_ary_sort = sortJsonArray(result_card_ary, 'unitPrice','asc')
+  console.log(JSON.stringify(result_card_ary_sort).toString());
+  // console.log(JSON.stringify(result_card_ary).toString());
+  // DunCardPartsItem.create(result_card_ary);
+};
+
+var getAuction = function(dbList_obj,i) {
+  // console.log(i);
+  var result = "";
+  var options = {
+    url:"https://api.neople.co.kr/df/auction?itemId="+dbList_obj.itemId+"&sort=unitPrice:asc&limit=10&apikey=vZmjeyzzdCx4opNjt4gus3jVE8uTC6Dq"
+  };
+  console.log(i + " | " + options.url);
+  request(options, function(err,res,html) {
+    result = html;
+  }).on('complete', function() {
+    var resultItem = JSON.parse(result).rows;
+    var result_card_obj = {};
+    result_card_obj.itemName = dbList_obj.itemName;
+    result_card_obj.itemId = dbList_obj.itemId;
+    result_card_obj.cardInfo = dbList_obj.cardInfo;
+    result_card_obj.itemRarity = dbList_obj.itemRarity;
+    result_card_obj.itemSeq = dbList_obj.itemSeq;
+
+    var auctionInfoAry = [];
+    if(resultItem !== "" && resultItem !== null && resultItem !== undefined) {
+      for(var auction_cnt=0; auction_cnt<resultItem.length; auction_cnt++) {
+        var auctionInfoObj = {};
+        auctionInfoObj.auctionNo = resultItem[auction_cnt].auctionNo;
+        auctionInfoObj.regDate = resultItem[auction_cnt].regDate;
+        auctionInfoObj.expireDate = resultItem[auction_cnt].expireDate;
+        auctionInfoObj.refine = resultItem[auction_cnt].refine;
+        auctionInfoObj.reinforce = resultItem[auction_cnt].reinforce;
+        auctionInfoObj.amplificationName = resultItem[auction_cnt].amplificationName;
+        auctionInfoObj.count = resultItem[auction_cnt].count;
+        auctionInfoObj.price = resultItem[auction_cnt].price;
+        auctionInfoObj.currentPrice = resultItem[auction_cnt].currentPrice;
+        auctionInfoObj.unitPrice = resultItem[auction_cnt].unitPrice;
+        auctionInfoObj.averagePrice = resultItem[auction_cnt].averagePrice;
+        auctionInfoAry.push(auctionInfoObj);
+      }
+    }else{
+      auctionInfoAry.push({});
+    }
+    result_card_obj.auctionInfo = auctionInfoAry;
+    var curr_date = new Date();
+    result_card_obj.currtime = curr_date.getHours();
+    result_card_ary.push(result_card_obj);
+  });
 };
 
 module.exports = common;

@@ -3,6 +3,7 @@ var express = require('express');
 var mtehodOverride = require("method-override");
 var bodyParser = require("body-parser");
 var mongoose   = require("mongoose");
+var common  = require("./common");
 var app = express();
 
 // DB setting
@@ -27,6 +28,14 @@ app.use(bodyParser.urlencoded({extended:true})); // 3
 app.use("/", require("./routes/card"));
 app.use("/card", require("./routes/card"));
 app.use("/cardparts", require("./routes/cardparts"));
+
+common.batchCardPartsInfo(); //카드재료Insert (등급별 최저가)
+
+// var cron = require('node-cron');
+// cron.schedule('*/3 * * * * *', function () {
+//   common.batchCardPartsInfo();
+//   common.batchCardPartsInfo1();
+// }).start();
 
 app.listen(8004, function() { //던포
   console.log("server on:"+__dirname);

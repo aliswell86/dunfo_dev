@@ -16,7 +16,9 @@
     "express": "^4.16.4",
     "method-override": "^3.0.0",
     "mongoose": "^5.3.10",
+    "node-cron": "^2.0.3",
     "prettyjson": "^1.2.1",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "sort-json-array": "^0.1.7"
   }
 }
