@@ -2,7 +2,7 @@ card = function() {
 
   var callback_getPartsCardInfo = function(data,textStatus,xhr) {
     if(!myajax.ajaxStatus(xhr,textStatus)) return;
-
+    console.log(data);
     var html = "";
     var tit_class = "";
 
@@ -80,7 +80,8 @@ card = function() {
       html += option_value_nm + skill_value_nm;
       html += "</td>";
       html += "<td class=\"tit_option\">";
-      if(obj.unitPrice.length !== "") html += utils.formatComma(obj.unitPrice) + "("+obj.auctionCount+") 골드";
+      html += obj.unitPrice;
+      // if(obj.unitPrice.length !== "") html += utils.formatComma(obj.unitPrice) + "("+obj.auctionCount+") 골드";
       html += "</td>";
       html += "</tr>";
 

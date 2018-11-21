@@ -29,12 +29,10 @@ app.use("/", require("./routes/card"));
 app.use("/card", require("./routes/card"));
 app.use("/cardparts", require("./routes/cardparts"));
 
-common.batchCardPartsInfo(); //카드재료Insert (등급별 최저가)
-
+// common.batchCardPartsInfo(); //카드재료Insert (등급별 최저가)
 // var cron = require('node-cron');
-// cron.schedule('*/3 * * * * *', function () {
+// cron.schedule('*/5 * * * *', function () {
 //   common.batchCardPartsInfo();
-//   common.batchCardPartsInfo1();
 // }).start();
 
 app.listen(8004, function() { //던포

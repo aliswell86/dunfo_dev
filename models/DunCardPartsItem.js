@@ -37,19 +37,17 @@ var DunCardPartsItem = mongoose.Schema({
       }]
     }]
   },
-  auctionInfo:[{
-    auctionNo:{type:Number},
-    regDate:{type:String},
-    expireDate:{type:String},
-    refine:{type:Number},
-    reinforce:{type:Number},
-    amplificationName:{type:String},
-    count:{type:Number},
-    price:{type:Number},
-    currentPrice:{type:Number},
-    unitPrice:{type:Number},
-    averagePrice:{type:Number}
-  }],
+  auctionNo:{type:Number},
+  regDate:{type:String},
+  expireDate:{type:String},
+  refine:{type:Number},
+  reinforce:{type:Number},
+  amplificationName:{type:String},
+  count:{type:Number},
+  price:{type:Number},
+  currentPrice:{type:Number},
+  unitPrice:{type:Number},
+  averagePrice:{type:Number},
   currRegDate:{type:String}
 });
 

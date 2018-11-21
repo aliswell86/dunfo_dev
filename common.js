@@ -1,4 +1,5 @@
 var request = require("request");
+var moment = require("moment");
 var DunCardItem = require("./models/DunCardItem.js");
 var DunCardPartsItem = require("./models/DunCardPartsItem.js");
 
@@ -155,7 +156,9 @@ common.setinObj = function(in1,in2,in3,in4,in5,in6) {
     if(in4!="0") {
       outList.push({"itemRarity":common.OPTION_GRADE_LIST[in4]});
     }
-    outList.push({"itemSeq":{"$gte":Number(in5)}});
+    if(in5!="") {
+      outList.push({"itemSeq":{"$gte":Number(in5)}});
+    }
     if(in6!=="" && in6!=undefined) {
       var or = [];
       in6_1 = in6;
@@ -173,9 +176,12 @@ common.setinObj = function(in1,in2,in3,in4,in5,in6) {
 };
 
 common.batchCardPartsInfo = function() {
-  DunCardItem.find({}).limit(2).sort("itemSeq").exec(
+  console.log("시작 : " + moment().format("YYYYMMDDHHmmss"));
+
+  DunCardItem.find({"itemTypeDetail":"전문직업 재료"}).sort("itemSeq").exec(
     function(err, dbList){
       if(err) return res.json(err);
+      console.log("총갯수 : " + dbList.length);
       var x = 0;
       result_card_ary = [];
       for(var i=0; i<dbList.length; i++) {
@@ -188,18 +194,16 @@ common.batchCardPartsInfo = function() {
 };
 
 var getAuctionProc = function() {
-  var sortJsonArray = require('sort-json-array');
-  var result_card_ary_sort = sortJsonArray(result_card_ary, 'unitPrice','asc')
-  console.log(JSON.stringify(result_card_ary_sort).toString());
-  // console.log(JSON.stringify(result_card_ary).toString());
-  // DunCardPartsItem.create(result_card_ary);
+  DunCardPartsItem.deleteMany({}).exec();
+  DunCardPartsItem.create(result_card_ary);
+  console.log("끝 : " + moment().format("YYYYMMDDHHmmss"));
 };
 
 var getAuction = function(dbList_obj,i) {
   // console.log(i);
   var result = "";
   var options = {
-    url:"https://api.neople.co.kr/df/auction?itemId="+dbList_obj.itemId+"&sort=unitPrice:asc&limit=10&apikey=vZmjeyzzdCx4opNjt4gus3jVE8uTC6Dq"
+    url:"https://api.neople.co.kr/df/auction?itemId="+dbList_obj.itemId+"&sort=unitPrice:asc&limit=1&apikey=vZmjeyzzdCx4opNjt4gus3jVE8uTC6Dq"
   };
   console.log(i + " | " + options.url);
   request(options, function(err,res,html) {
@@ -207,35 +211,84 @@ var getAuction = function(dbList_obj,i) {
   }).on('complete', function() {
     var resultItem = JSON.parse(result).rows;
     var result_card_obj = {};
-    result_card_obj.itemName = dbList_obj.itemName;
-    result_card_obj.itemId = dbList_obj.itemId;
-    result_card_obj.cardInfo = dbList_obj.cardInfo;
-    result_card_obj.itemRarity = dbList_obj.itemRarity;
     result_card_obj.itemSeq = dbList_obj.itemSeq;
-
-    var auctionInfoAry = [];
+    result_card_obj.itemId = dbList_obj.itemId;
+    result_card_obj.itemName = dbList_obj.itemName;
+    result_card_obj.itemRarity = dbList_obj.itemRarity;
+    result_card_obj.itemType = dbList_obj.itemType;
+    result_card_obj.itemTypeDetail = dbList_obj.itemTypeDetail;
+    result_card_obj.itemAvailableLevel = dbList_obj.itemAvailableLevel;
+    result_card_obj.itemObtainInfo = dbList_obj.itemObtainInfo;
+    result_card_obj.itemExplain = dbList_obj.itemExplain;
+    result_card_obj.itemExplainDetail = dbList_obj.itemExplainDetail;
+    result_card_obj.itemFlavorText = dbList_obj.itemFlavorText;
+    result_card_obj.setItemId = dbList_obj.setItemId;
+    result_card_obj.setItemName = dbList_obj.setItemName;
+    result_card_obj.searchItemName = dbList_obj.searchItemName;
+    result_card_obj.cardInfo = dbList_obj.cardInfo;
     if(resultItem !== "" && resultItem !== null && resultItem !== undefined) {
-      for(var auction_cnt=0; auction_cnt<resultItem.length; auction_cnt++) {
-        var auctionInfoObj = {};
-        auctionInfoObj.auctionNo = resultItem[auction_cnt].auctionNo;
-        auctionInfoObj.regDate = resultItem[auction_cnt].regDate;
-        auctionInfoObj.expireDate = resultItem[auction_cnt].expireDate;
-        auctionInfoObj.refine = resultItem[auction_cnt].refine;
-        auctionInfoObj.reinforce = resultItem[auction_cnt].reinforce;
-        auctionInfoObj.amplificationName = resultItem[auction_cnt].amplificationName;
-        auctionInfoObj.count = resultItem[auction_cnt].count;
-        auctionInfoObj.price = resultItem[auction_cnt].price;
-        auctionInfoObj.currentPrice = resultItem[auction_cnt].currentPrice;
-        auctionInfoObj.unitPrice = resultItem[auction_cnt].unitPrice;
-        auctionInfoObj.averagePrice = resultItem[auction_cnt].averagePrice;
-        auctionInfoAry.push(auctionInfoObj);
+      if(resultItem.length>0) {
+        result_card_obj.auctionNo = resultItem[0].auctionNo;
+        result_card_obj.regDate = resultItem[0].regDate;
+        result_card_obj.expireDate = resultItem[0].expireDate;
+        result_card_obj.refine = resultItem[0].refine;
+        result_card_obj.reinforce = resultItem[0].reinforce;
+        result_card_obj.amplificationName = resultItem[0].amplificationName;
+        result_card_obj.count = resultItem[0].count;
+        result_card_obj.price = resultItem[0].price;
+        result_card_obj.currentPrice = resultItem[0].currentPrice;
+        result_card_obj.unitPrice = resultItem[0].unitPrice;
+        result_card_obj.averagePrice = resultItem[0].averagePrice;
+      }else{
+        result_card_obj.auctionNo = "";
+        result_card_obj.regDate = "";
+        result_card_obj.expireDate = "";
+        result_card_obj.refine = "";
+        result_card_obj.reinforce = "";
+        result_card_obj.amplificationName = "";
+        result_card_obj.count = "";
+        result_card_obj.price = "";
+        result_card_obj.currentPrice = "";
+        result_card_obj.unitPrice = "";
+        result_card_obj.averagePrice = "";
       }
     }else{
-      auctionInfoAry.push({});
+      result_card_obj.auctionNo = "";
+      result_card_obj.regDate = "";
+      result_card_obj.expireDate = "";
+      result_card_obj.refine = "";
+      result_card_obj.reinforce = "";
+      result_card_obj.amplificationName = "";
+      result_card_obj.count = "";
+      result_card_obj.price = "";
+      result_card_obj.currentPrice = "";
+      result_card_obj.unitPrice = "";
+      result_card_obj.averagePrice = "";
     }
-    result_card_obj.auctionInfo = auctionInfoAry;
-    var curr_date = new Date();
-    result_card_obj.currtime = curr_date.getHours();
+
+    result_card_obj.currRegDate = moment().format("YYYYMMDDHHmmss");
+    // var auctionInfoAry = [];
+    // if(resultItem !== "" && resultItem !== null && resultItem !== undefined) {
+    //   for(var auction_cnt=0; auction_cnt<resultItem.length; auction_cnt++) {
+    //     var auctionInfoObj = {};
+    //     auctionInfoObj.auctionNo = resultItem[auction_cnt].auctionNo;
+    //     auctionInfoObj.regDate = resultItem[auction_cnt].regDate;
+    //     auctionInfoObj.expireDate = resultItem[auction_cnt].expireDate;
+    //     auctionInfoObj.refine = resultItem[auction_cnt].refine;
+    //     auctionInfoObj.reinforce = resultItem[auction_cnt].reinforce;
+    //     auctionInfoObj.amplificationName = resultItem[auction_cnt].amplificationName;
+    //     auctionInfoObj.count = resultItem[auction_cnt].count;
+    //     auctionInfoObj.price = resultItem[auction_cnt].price;
+    //     auctionInfoObj.currentPrice = resultItem[auction_cnt].currentPrice;
+    //     auctionInfoObj.unitPrice = resultItem[auction_cnt].unitPrice;
+    //     auctionInfoObj.averagePrice = resultItem[auction_cnt].averagePrice;
+    //     auctionInfoAry.push(auctionInfoObj);
+    //   }
+    // }else{
+    //   auctionInfoAry.push({});
+    // }
+    // result_card_obj.auctionInfo = auctionInfoAry;
+
     result_card_ary.push(result_card_obj);
   });
 };
