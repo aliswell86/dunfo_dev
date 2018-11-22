@@ -11,7 +11,7 @@ var header_description = "던전앤파이터 정보. 카드,보주정보. 부위
 var result_card_ary = [];
 
 router.get("/", function(req, res) {
-  res.render("card/index",{title:header_txt,description:header_description,img_title:"카 드 사 전"});
+  res.render("card/index",{title:header_txt,description:header_description,img_title:"카 드 사 전",img_link:"/card"});
 });
 
 router.post("/get", function(req, res) {

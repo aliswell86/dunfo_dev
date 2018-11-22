@@ -9,7 +9,7 @@ var header_txt = "던파카드사전 - 던전앤파이터";
 var header_description = "던전앤파이터 카드정보. 카드,보주 시세. 부위별 옵션별 조회. 재료용카드 확인.";
 
 router.get("/", function(req, res) {
-  res.render("card/parts",{title:header_txt,description:header_description,img_title:"희귀도별 최저가 카드"});
+  res.render("card/parts",{title:header_txt,description:header_description,img_title:"희귀도별 최저가 카드",img_link:"/cardparts"});
 });
 
 router.post("/get", function(req, res) {

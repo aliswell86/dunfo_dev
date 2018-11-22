@@ -31,8 +31,8 @@ app.use("/cardparts", require("./routes/cardparts"));
 app.use("/hi", require("./routes/hi"));
 
 // common.batchCardPartsInfo();
-var cron = require('node-cron');
-// cron.schedule('*/5 * * * *', function () {
+// var cron = require('node-cron');
+// cron.schedule('*/2 * * * *', function () {
 //   common.batchCardPartsInfo();
 // }).start();
 
