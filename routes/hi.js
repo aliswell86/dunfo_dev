@@ -10,7 +10,7 @@ router.get("/", function(req, res) {
   DunCardCtt.find({}).sort({reg_dtm:-1}).limit(100).exec(
     function(err, dbList){
       if(err) return res.json(err);
-      res.render("hi/hi",{title:header_txt,description:header_description,img_title:"건 의 하 기",data:dbList});
+      res.render("hi/hi",{title:header_txt,description:header_description,img_title:"건 의 하 기",data:dbList,img_link:"/hi"});
     }
   );
 });
