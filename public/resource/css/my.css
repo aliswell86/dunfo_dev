@@ -76,8 +76,10 @@ h6 {color:#868a96 !important;font-size:12px !important;}
 .tit_legend {color:#FF7800;}
 .tit_option {}
 .card_img {padding-right:4px;}
-#card_tab {font-size:11px;}
+#card_tab {font-size:12px;}
 #card_tab tr td,th {vertical-align:middle !important;}
+#cttTab {font-size:12px;}
+#cttTab tr td,th {vertical-align:middle !important;}
 
 tr.more_view td:hover {
   border:solid 1px #204d74;

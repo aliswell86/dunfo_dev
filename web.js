@@ -18,7 +18,7 @@ db.on("error", function(err){
 });
 
 app.set("view engine", "ejs");
-// app.set("views", "/home/hosting_users/balkwang/apps/balkwang_eterinfo/views");
+app.set("views", "/home/hosting_users/balkwang/apps/balkwang_dnfdic/views");
 
 app.use(express.static(__dirname+"/public"));
 app.use(mtehodOverride("_method"));
@@ -28,13 +28,14 @@ app.use(bodyParser.urlencoded({extended:true})); // 3
 app.use("/", require("./routes/card"));
 app.use("/card", require("./routes/card"));
 app.use("/cardparts", require("./routes/cardparts"));
+app.use("/hi", require("./routes/hi"));
 
-// common.batchCardPartsInfo(); //카드재료Insert (등급별 최저가)
-// var cron = require('node-cron');
-// cron.schedule('*/5 * * * *', function () {
-//   common.batchCardPartsInfo();
-// }).start();
+// common.batchCardPartsInfo();
+var cron = require('node-cron');
+cron.schedule('*/5 * * * *', function () {
+  common.batchCardPartsInfo();
+}).start();
 
-app.listen(8004, function() { //던포
+app.listen(8002, function() { //던포
   console.log("server on:"+__dirname);
 });

@@ -156,17 +156,17 @@ common.setinObj = function(in1,in2,in3,in4,in5,in6) {
     if(in4!="0") {
       outList.push({"itemRarity":common.OPTION_GRADE_LIST[in4]});
     }
-    if(in5!="") {
+    if(in5!=="") {
       outList.push({"itemSeq":{"$gte":Number(in5)}});
     }
-    if(in6!=="" && in6!=undefined) {
+    if(in6!=="" && in6!==undefined) {
       var or = [];
       in6_1 = in6;
       in6 = in6.replace(/ /gi, "");
 
       or.push({"searchItemName":{"$regex":eval("/"+in6+"/")}});
       or.push({"cardInfo.enchant":{"$elemMatch":{"status":{"$elemMatch":{"name":eval("/"+in6_1+"/")}}}}});
-      console.log(or);
+      // console.log(or);
       outList.push({"$or":or});
     }
   }
@@ -205,7 +205,7 @@ var getAuction = function(dbList_obj,i) {
   var options = {
     url:"https://api.neople.co.kr/df/auction?itemId="+dbList_obj.itemId+"&sort=unitPrice:asc&limit=1&apikey=vZmjeyzzdCx4opNjt4gus3jVE8uTC6Dq"
   };
-  console.log(i + " | " + options.url);
+  // console.log(i + " | " + options.url);
   request(options, function(err,res,html) {
     result = html;
   }).on('complete', function() {
