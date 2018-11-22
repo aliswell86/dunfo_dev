@@ -18,7 +18,7 @@ db.on("error", function(err){
 });
 
 app.set("view engine", "ejs");
-app.set("views", "/home/hosting_users/balkwang/apps/balkwang_dnfdic/views");
+// app.set("views", "/home/hosting_users/balkwang/apps/balkwang_dnfdic/views");
 
 app.use(express.static(__dirname+"/public"));
 app.use(mtehodOverride("_method"));
@@ -32,9 +32,9 @@ app.use("/hi", require("./routes/hi"));
 
 // common.batchCardPartsInfo();
 var cron = require('node-cron');
-cron.schedule('*/5 * * * *', function () {
-  common.batchCardPartsInfo();
-}).start();
+// cron.schedule('*/5 * * * *', function () {
+//   common.batchCardPartsInfo();
+// }).start();
 
 app.listen(8002, function() { //던포
   console.log("server on:"+__dirname);
