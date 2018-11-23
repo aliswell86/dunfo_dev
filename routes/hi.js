@@ -4,7 +4,7 @@ var moment = require("moment");
 var DunCardCtt = require("../models/DunCardCtt.js");
 var router = express.Router();
 var header_txt = "던파카드사전 - 던전앤파이터";
-var header_description = "던전앤파이터 카드정보. 카드,보주 시세. 부위별 옵션별 조회. 재료용카드 확인.";
+var header_description = "던딕. 던전앤파이터 카드정보. 카드,보주 시세. 부위별 옵션별 조회. 재료용카드 확인.";
 
 router.get("/", function(req, res) {
   DunCardCtt.find({}).sort({reg_dtm:-1}).limit(100).exec(

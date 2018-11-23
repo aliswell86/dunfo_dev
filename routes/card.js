@@ -7,7 +7,7 @@ var DunCardPartsItem = require("../models/DunCardPartsItem.js");
 var common  = require("../common");
 var router = express.Router();
 var header_txt = "던파카드사전 - 던전앤파이터";
-var header_description = "던전앤파이터 정보. 카드,보주정보. 부위별, 옵션별 조회. 경매장시세 확인.";
+var header_description = "던딕. 던전앤파이터 정보. 카드,보주정보. 부위별, 옵션별 조회. 경매장시세 확인.";
 var result_card_ary = [];
 
 router.get("/", function(req, res) {
