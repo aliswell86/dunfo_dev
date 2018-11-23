@@ -20,4 +20,9 @@
 <changefreq>daily</changefreq>
 <priority>0.85</priority>
 </url>
+<url>
+<loc>http://dundic.kr/notice</loc>
+<changefreq>daily</changefreq>
+<priority>0.85</priority>
+</url>
 </urlset>

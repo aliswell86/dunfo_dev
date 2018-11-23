@@ -18,7 +18,7 @@ db.on("error", function(err){
 });
 
 app.set("view engine", "ejs");
-// app.set("views", "/home/hosting_users/balkwang/apps/balkwang_dundic/views");
+app.set("views", "/home/hosting_users/balkwang/apps/balkwang_dundic/views");
 
 app.use(express.static(__dirname+"/public"));
 app.use(mtehodOverride("_method"));
@@ -29,6 +29,7 @@ app.use("/", require("./routes/card"));
 app.use("/card", require("./routes/card"));
 app.use("/cardparts", require("./routes/cardparts"));
 app.use("/hi", require("./routes/hi"));
+app.use("/notice", require("./routes/notice"));
 
 // common.batchCardPartsInfo();
 var cron = require('node-cron');
