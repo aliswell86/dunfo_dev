@@ -176,12 +176,12 @@ common.setinObj = function(in1,in2,in3,in4,in5,in6) {
 };
 
 common.batchCardPartsInfo = function() {
-  console.log("시작 : " + moment().format("YYYYMMDDHHmmss"));
+  // console.log("시작 : " + moment().format("YYYYMMDDHHmmss"));
 
   DunCardItem.find({"itemTypeDetail":"전문직업 재료"}).sort("itemSeq").exec(
     function(err, dbList){
       if(err) return res.json(err);
-      console.log("총갯수 : " + dbList.length);
+      // console.log("총갯수 : " + dbList.length);
       var x = 0;
       result_card_ary = [];
       for(var i=0; i<dbList.length; i++) {
